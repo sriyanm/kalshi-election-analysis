@@ -5,6 +5,7 @@ from typing import Any, Dict, Optional
 from datetime import datetime, timedelta
 from enum import Enum
 import json
+from dotenv import load_dotenv
 
 from requests.exceptions import HTTPError
 
