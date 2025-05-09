@@ -164,49 +164,34 @@ plt.close()
 
 
 # example 4: tetail vs institutional trades
-threshold = 100  # higher than this is institutional, lower is retail
+threshold = 10000  # higher than this is institutional, lower is retail
 
 df_trump['investor_type'] = df_trump['count'].apply(lambda x: 'Retail' if x < threshold else 'Institutional')
 df_harris['investor_type'] = df_harris['count'].apply(lambda x: 'Retail' if x < threshold else 'Institutional')
 
-df_trump_yes = df_trump[df_trump['taker_side'] == 'Yes']
-df_trump_no = df_trump[df_trump['taker_side'] == 'No']
-df_harris_yes = df_harris[df_harris['taker_side'] == 'Yes']
-df_harris_no = df_harris[df_harris['taker_side'] == 'No']
+retail_trump = df_trump[df_trump['investor_type'] == 'Retail'].groupby('date')['count'].sum()
+institutional_trump = df_trump[df_trump['investor_type'] == 'Institutional'].groupby('date')['count'].sum()
 
-retail_trump_yes = df_trump_yes[df_trump_yes['investor_type'] == 'Retail'].groupby('date')['count'].sum()
-institutional_trump_yes = df_trump_yes[df_trump_yes['investor_type'] == 'Institutional'].groupby('date')['count'].sum()
-
-retail_trump_no = df_trump_no[df_trump_no['investor_type'] == 'Retail'].groupby('date')['count'].sum()
-institutional_trump_no = df_trump_no[df_trump_no['investor_type'] == 'Institutional'].groupby('date')['count'].sum()
-
-retail_harris_yes = df_harris_yes[df_harris_yes['investor_type'] == 'Retail'].groupby('date')['count'].sum()
-institutional_harris_yes = df_harris_yes[df_harris_yes['investor_type'] == 'Institutional'].groupby('date')['count'].sum()
-
-retail_harris_no = df_harris_no[df_harris_no['investor_type'] == 'Retail'].groupby('date')['count'].sum()
-institutional_harris_no = df_harris_no[df_harris_no['investor_type'] == 'Institutional'].groupby('date')['count'].sum()
+retail_harris = df_harris[df_harris['investor_type'] == 'Retail'].groupby('date')['count'].sum()
+institutional_harris = df_harris[df_harris['investor_type'] == 'Institutional'].groupby('date')['count'].sum()
 
 plt.figure(figsize=(12, 8))
 
-# trump - yes/no side
+# trump
 plt.subplot(2, 1, 1)
-plt.plot(retail_trump_yes.index, retail_trump_yes, label='Retail - Yes', color='blue', marker='o')
-plt.plot(institutional_trump_yes.index, institutional_trump_yes, label='Institutional - Yes', color='red', marker='x')
-plt.plot(retail_trump_no.index, retail_trump_no, label='Retail - No', color='lightblue', marker='o', linestyle='--')
-plt.plot(institutional_trump_no.index, institutional_trump_no, label='Institutional - No', color='pink', marker='x', linestyle='--')
-plt.title('Trade Volume for Trump (PRES-2024-DJT) by Taker Side')
+plt.plot(retail_trump.index, retail_trump, label='Retail', color='blue', marker='o')
+plt.plot(institutional_trump.index, institutional_trump, label='Institutional', color='red', marker='x')
+plt.title('Trade Volume for Trump (PRES-2024-DJT)')
 plt.xlabel('Date')
 plt.ylabel('Total Trade Volume')
 plt.legend()
 plt.grid(True)
 
-# harris - yes/no side
+# harris
 plt.subplot(2, 1, 2)
-plt.plot(retail_harris_yes.index, retail_harris_yes, label='Retail - Yes', color='blue', marker='o')
-plt.plot(institutional_harris_yes.index, institutional_harris_yes, label='Institutional - Yes', color='red', marker='x')
-plt.plot(retail_harris_no.index, retail_harris_no, label='Retail - No', color='lightblue', marker='o', linestyle='--')
-plt.plot(institutional_harris_no.index, institutional_harris_no, label='Institutional - No', color='pink', marker='x', linestyle='--')
-plt.title('Trade Volume for Harris (PRES-2024-KH) by Taker Side')
+plt.plot(retail_harris.index, retail_harris, label='Retail', color='blue', marker='o')
+plt.plot(institutional_harris.index, institutional_harris, label='Institutional', color='red', marker='x')
+plt.title('Trade Volume for Harris (PRES-2024-KH)')
 plt.xlabel('Date')
 plt.ylabel('Total Trade Volume')
 plt.legend()
@@ -215,7 +200,7 @@ plt.grid(True)
 plt.xticks(rotation=45)
 
 plt.tight_layout()
-plt.savefig(os.path.join(output_directory, 'retail_vs_institutional_trade_volume_with_taker_side.png'))
+plt.savefig(os.path.join(output_directory, 'retail_vs_institutional_trade_volume.png'))
 plt.close()
 
 
