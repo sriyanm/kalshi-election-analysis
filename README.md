@@ -1,10 +1,20 @@
-# kalshi-starter-code-python
-Example python code for accessing api-authenticated endpoints on [Kalshi](https://kalshi.com). This is not an SDK. 
+# 🗳️ Kalshi Election Market Analysis (2024)
 
-## Installation 
-Install requirements.txt in a virtual environment of your choice and execute main.py from within the repo.
+Analyze institutional vs. retail trading activity on Kalshi for the 2024 U.S. presidential election contracts.
 
-```
+## 📌 Summary
+
+- Focus: Contracts for Trump (`PRES-2024-DJT`) and Harris (`PRES-2024-KH`)
+- Goal: Identify trading patterns, sentiment shifts, and differences between institutional and retail activity
+- Method: Use Kalshi API + Python (Pandas, Matplotlib)
+
+## 🔧 Setup
+
+**Requirements:**  
+Python 3.9+, `pandas`, `matplotlib`, `dotenv`, `cryptography`
+
+```bash
 pip install -r requirements.txt
-python main.py
+python3 main.py
 ```
+
